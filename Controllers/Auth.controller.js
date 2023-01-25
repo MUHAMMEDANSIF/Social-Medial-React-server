@@ -75,18 +75,18 @@ export const Login = async (req, res, next) => {
           );
 
           res.cookie('refreshtoken', refreshtoken, {
+            httpOnly: true,
             secure: true,
-            sameSite: 'strict',
             path: '/',
             maxAge: 1000 * 60 * 60 * 24,
-            httpOnly: true,
+            sameSite: 'none',
           })
             .cookie('accesstoken', accessToken, {
+              httpOnly: true,
               secure: true,
-              sameSite: 'strict',
               path: '/',
               maxAge: 1000 * 60 * 60 * 24,
-              httpOnly: true,
+              sameSite: 'none',
             })
             .json({
               success: 'Login success',
