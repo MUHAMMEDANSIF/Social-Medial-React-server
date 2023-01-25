@@ -28,9 +28,9 @@ dotenv.config();
 app.use(express.json());
 app.use(bodyParser({ extends: true }));
 
-app.use(cookieParser('dsafhaskdfjsdaklfjsklafjsdfgggsffgsdfddfgdgf'));
 try {
   app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
+  app.use(cookieParser('dsafhaskdfjsdaklfjsklafjsdfgggsffgsdfddfgdgf'));
 } catch (err) {
   console.log(err);
 }
@@ -39,6 +39,13 @@ app.listen(process.env.PORT, () => {
   connect();
   console.log('Backend connection successfully');
   console.log(`server running in ${process.env.PORT}`);
+});
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', process.env.CLIENT_URL);
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
 });
 
 app.use('/auth', AuthRouter);

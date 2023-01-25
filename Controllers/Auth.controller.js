@@ -78,14 +78,14 @@ export const Login = async (req, res, next) => {
             secure: true,
             sameSite: 'strict',
             path: '/',
-            maxAge: 3600000 * 24,
+            maxAge: 1000 * 60 * 60 * 24,
             httpOnly: true,
           })
             .cookie('accesstoken', accessToken, {
               secure: true,
               sameSite: 'strict',
               path: '/',
-              maxAge: 3600000 * 24,
+              maxAge: 1000 * 60 * 60 * 24,
               httpOnly: true,
             })
             .json({
@@ -285,11 +285,11 @@ export const sendotp = async (req, res) => {
           );
 
           res.status(200).cookie('verificationToken', verificationToken, {
+            secure: true,
             sameSite: 'strict',
             path: '/',
             maxAge: 1000 * 60 * 60 * 60 * 60,
             httpOnly: true,
-            secure: true,
           }).json({ success: true, email });
         }
       });
