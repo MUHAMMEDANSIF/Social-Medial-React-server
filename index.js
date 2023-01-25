@@ -30,7 +30,7 @@ app.use(bodyParser({ extends: true }));
 
 try {
   app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
-  app.use(cookieParser());
+  app.use(cookieParser('dsafhaskdfjsdaklfjsklafjsdfgggsffgsdfddfgdgf'));
 } catch (err) {
   console.log(err);
 }
