@@ -213,8 +213,8 @@ export const verifytokens = (req, res, next) => {
 
 export const Logout = async (req, res) => {
   try {
-    res.clearCookie('accesstoken')
-      .clearCookie('refreshtoken')
+    res.clearCookie('accesstoken', { path: '/' })
+      .clearCookie('refreshtoken', { path: '/' })
       .json({ success: 'cookie cleraed' });
 
     const userid = req.userinfo._id;
