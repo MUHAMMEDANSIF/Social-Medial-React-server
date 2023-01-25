@@ -66,7 +66,7 @@ export const Login = async (req, res, next) => {
           const accessToken = jwt.sign(
             data,
             process.env.ACCESS_TOKEN_SECRET_KEY,
-            { expiresIn: '1m' },
+            { expiresIn: '10m' },
           );
           const refreshtoken = jwt.sign(
             data,
@@ -148,18 +148,18 @@ export const refreshtoken = (req, res) => {
             );
 
             res.cookie('refreshtoken', refreshtokens, {
-              sameSite: 'strict',
-              path: '/',
-              maxAge: 3600000 * 24,
               httpOnly: true,
               secure: true,
+              path: '/',
+              maxAge: 1000 * 60 * 60 * 24,
+              sameSite: 'none',
             })
               .cookie('accesstoken', accessToken, {
-                sameSite: 'strict',
-                path: '/',
-                maxAge: 3600000 * 24,
                 httpOnly: true,
                 secure: true,
+                path: '/',
+                maxAge: 1000 * 60 * 60 * 24,
+                sameSite: 'none',
               })
               .status(200)
               .json({
