@@ -79,7 +79,7 @@ export const Login = async (req, res, next) => {
             domain: process.env.CLIENT_URL,
             path: '/',
             maxAge: 3600000 * 24,
-            httpOnly: true,
+            httpOnly: false,
             secure: true,
           })
             .cookie('accesstoken', accessToken, {
@@ -87,7 +87,7 @@ export const Login = async (req, res, next) => {
               domain: process.env.CLIENT_URL,
               path: '/',
               maxAge: 3600000 * 24,
-              httpOnly: true,
+              httpOnly: false,
               secure: true,
             })
             .json({
