@@ -30,7 +30,7 @@ app.use(bodyParser({ extends: true }));
 
 app.use(cookieParser('dsafhaskdfjsdaklfjsklafjsdfgggsffgsdfddfgdgf'));
 try {
-  app.use(cors({ credentials: true, origin: 'https://viable-world-react-client.onrender.com' }));
+  app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
 } catch (err) {
   console.log(err);
 }
