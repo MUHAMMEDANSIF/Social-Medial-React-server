@@ -79,14 +79,14 @@ export const Login = async (req, res, next) => {
             secure: true,
             path: '/',
             maxAge: 1000 * 60 * 60 * 24,
-            sameSite: 'none',
+            sameSite: 'strict',
           })
             .cookie('accesstoken', accessToken, {
               httpOnly: true,
               secure: true,
               path: '/',
               maxAge: 1000 * 60 * 60 * 24,
-              sameSite: 'none',
+              sameSite: 'strict',
             })
             .json({
               success: 'Login success',
@@ -181,6 +181,7 @@ export const refreshtoken = (req, res) => {
 export const verifytokens = (req, res, next) => {
   try {
     if (req.cookies.accesstoken) {
+      console.log(req.cookies.accessToken);
       jwt.verify(
         req.cookies.accesstoken,
         process.env.ACCESS_TOKEN_SECRET_KEY,
@@ -212,9 +213,7 @@ export const verifytokens = (req, res, next) => {
 
 export const Logout = async (req, res) => {
   try {
-    res.clearCookie('accesstoken')
-      .clearCookie('refreshtoken')
-      .json({ success: 'cookie cleraed' });
+    res.json({ success: 'cookie cleraed' });
 
     const userid = req.userinfo._id;
 
