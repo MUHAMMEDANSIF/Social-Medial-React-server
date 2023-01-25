@@ -79,16 +79,12 @@ export const Login = async (req, res, next) => {
             domain: process.env.CLIENT_URL,
             path: '/',
             maxAge: 3600000 * 24,
-            httpOnly: false,
-            secure: true,
           })
             .cookie('accesstoken', accessToken, {
               sameSite: 'none',
               domain: process.env.CLIENT_URL,
               path: '/',
               maxAge: 3600000 * 24,
-              httpOnly: false,
-              secure: true,
             })
             .json({
               success: 'Login success',
