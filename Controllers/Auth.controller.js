@@ -76,14 +76,12 @@ export const Login = async (req, res, next) => {
 
           res.cookie('refreshtoken', refreshtoken, {
             sameSite: 'strict',
-            path: '/',
             maxAge: 3600000 * 24,
             httpOnly: true,
             secure: true,
           })
             .cookie('accesstoken', accessToken, {
               sameSite: 'strict',
-              path: '/',
               maxAge: 3600000 * 24,
               httpOnly: true,
               secure: true,
@@ -113,7 +111,7 @@ export const Login = async (req, res, next) => {
     );
   } catch (err) {
     res.json({
-      error: 'Some technical Problem Please try after some time we will fix it',
+      error: 'Some technical Problem Please try after some time we will fix it', message: err.message,
     });
   }
 };
