@@ -29,8 +29,11 @@ app.use(express.json());
 app.use(bodyParser({ extends: true }));
 
 app.use(cookieParser('dsafhaskdfjsdaklfjsklafjsdfgggsffgsdfddfgdgf'));
-
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+try {
+  app.use(cors({ credentials: true, origin: 'https://viable-world-react-client.onrender.com' }));
+} catch (err) {
+  console.log(err);
+}
 
 app.listen(process.env.PORT, () => {
   connect();

@@ -6,14 +6,41 @@ export const allchatster = async (req, res) => {
   try {
     const user = req.userinfo;
     const userid = req.userinfo._id;
+
     const chatsteres_list = await ChatSterSchema.findOne({
       user: userid,
     }).populate('chatsters.personid');
     if (chatsteres_list) {
+      // eslint-disable-next-line max-len
+      const chatstersid = chatsteres_list.chatsters.map((element) => element.personid._id.toString());
+
+      const messagesortorder = await MessageSchema.aggregate([
+        {
+          $match: {
+            $or: [
+              { senderId: { $in: chatstersid }, receiverid: userid },
+              { receiverid: { $in: chatstersid }, senderId: userid },
+            ],
+          },
+        },
+        {
+          $group: {
+            _id: { senderId: '$senderId', receiverid: '$receiverid' },
+            maxDate: { $max: '$createdAt' },
+          },
+        },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      ]);
+
       res.status(200).json({
         success: true,
         chatsteres: chatsteres_list,
         user,
+        order: messagesortorder,
       });
     } else {
       res.status(200).json({ status: 'You have No message yet' });
@@ -68,14 +95,12 @@ export const addnewchatster = async (req, res) => {
 export const getallmessages = async (req, res) => {
   try {
     const { currentUser, currentchatster } = req.body;
-
     const response = await MessageSchema.find({
       $or: [
         { senderId: currentUser, receiverid: currentchatster },
         { senderId: currentchatster, receiverid: currentUser },
       ],
     }).sort({ createdAt: 1 });
-
     res.json({ success: true, message: response });
   } catch (err) {
     console.log(err);

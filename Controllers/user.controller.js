@@ -121,8 +121,6 @@ export const getAllUser = async (req, res) => {
   try {
     const User = await Userschema.findById(req.userinfo._id);
     const alluser = await Userschema.find({ _id: { $ne: [req.userinfo._id] } });
-    console.log(User);
-    console.log('User');
     res.status(200).json({ success: true, AllUser: alluser, following: User.following });
   } catch (err) {
     console.log(err);
@@ -163,15 +161,12 @@ export const updateprofile = async (req, res) => {
   try {
     let locaFilePath;
     if (req.file) {
-      console.log(req.file);
       locaFilePath = req.file.path;
     } else {
-      console.log('file not found');
       res.json({ error: 'file not found' });
     }
 
     const file = await uploadToCloudinary(locaFilePath);
-    console.log(file);
     if (file.public_id) {
       const response = await Userschema.findByIdAndUpdate(req.userinfo._id, {
         $set: {
@@ -181,7 +176,6 @@ export const updateprofile = async (req, res) => {
           },
         },
       });
-      console.log(response);
       res.json({
         success: 'profile uploading is successfully finished',
         user: response,
@@ -190,7 +184,6 @@ export const updateprofile = async (req, res) => {
       res.json({ error: 'file uploading is failed pelase try again' });
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({ error: err });
   }
 };
