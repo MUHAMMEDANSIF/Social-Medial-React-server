@@ -79,14 +79,14 @@ export const Login = async (req, res, next) => {
             secure: true,
             path: '/',
             maxAge: 1000 * 60 * 60 * 24,
-            sameSite: 'strict',
+            sameSite: 'none',
           })
             .cookie('accesstoken', accessToken, {
               httpOnly: true,
               secure: true,
               path: '/',
               maxAge: 1000 * 60 * 60 * 24,
-              sameSite: 'strict',
+              sameSite: 'none',
             })
             .json({
               success: 'Login success',
@@ -213,7 +213,9 @@ export const verifytokens = (req, res, next) => {
 
 export const Logout = async (req, res) => {
   try {
-    res.json({ success: 'cookie cleraed' });
+    res.clearCookie('accesstoken')
+      .clearCookie('refreshtoken')
+      .json({ success: 'cookie cleraed' });
 
     const userid = req.userinfo._id;
 
