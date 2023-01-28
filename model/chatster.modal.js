@@ -4,6 +4,7 @@ const chatsterSchema = mongoose.Schema({
   user: String,
   chatsters: [
     {
+      chatId: String,
       personid: {
         type: Schema.Types.ObjectId,
         ref: 'user',

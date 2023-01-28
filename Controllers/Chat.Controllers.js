@@ -1,4 +1,6 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-underscore-dangle */
+import { v4 as randomId } from 'uuid';
 import ChatSterSchema from '../model/chatster.modal.js';
 import MessageSchema from '../model/chatmessage.modal.js';
 
@@ -9,7 +11,9 @@ export const allchatster = async (req, res) => {
 
     const chatsteres_list = await ChatSterSchema.findOne({
       user: userid,
-    }).populate('chatsters.personid');
+    })
+      .populate('chatsters.personid')
+      .sort({ createdAt: -1 });
     if (chatsteres_list) {
       // eslint-disable-next-line max-len
       const chatstersid = chatsteres_list.chatsters.map((element) => element.personid._id.toString());
@@ -25,7 +29,7 @@ export const allchatster = async (req, res) => {
         },
         {
           $group: {
-            _id: { senderId: '$senderId', receiverid: '$receiverid' },
+            _id: '$chatId',
             maxDate: { $max: '$createdAt' },
           },
         },
@@ -54,12 +58,14 @@ export const addnewchatster = async (req, res) => {
   try {
     const userid = req.userinfo._id;
     const { chatster } = req.body;
-
+    const chatId = randomId();
+    console.log(chatId);
     await ChatSterSchema.findOneAndUpdate(
       { user: userid, 'chatsters.personid': { $ne: chatster } },
       {
         $push: {
           chatsters: {
+            chatId,
             personid: chatster,
           },
         },
@@ -74,6 +80,7 @@ export const addnewchatster = async (req, res) => {
       {
         $push: {
           chatsters: {
+            chatId,
             personid: userid,
           },
         },

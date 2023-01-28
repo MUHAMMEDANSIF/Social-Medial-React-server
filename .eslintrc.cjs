@@ -15,5 +15,6 @@ module.exports = {
     camelcase: 0,
     'underscore-dangle': 0,
     'linebreak-style': 0,
+    'intno-plusplus': 0,
   },
 };
